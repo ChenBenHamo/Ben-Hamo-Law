@@ -565,6 +565,43 @@ nav button.active {
   padding: clamp(24px, 4vw, 46px);
 }
 
+.attorney-profile {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 22px;
+  align-items: center;
+  margin: 28px 0;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-right: 4px solid var(--gold);
+  border-radius: 6px;
+  background: #fbfcfd;
+}
+
+.attorney-profile img {
+  width: 112px;
+  height: 112px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid white;
+  box-shadow: 0 10px 26px rgba(15, 37, 56, 0.16);
+}
+
+.attorney-profile span {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--gold-dark);
+  font-weight: 800;
+}
+
+.attorney-profile h2 {
+  margin: 0 0 8px;
+}
+
+.attorney-profile p {
+  margin: 0;
+}
+
 .muted {
   color: var(--muted);
 }
@@ -608,6 +645,40 @@ blockquote {
   display: grid;
   gap: 12px;
   margin-top: 24px;
+}
+
+.search-field {
+  display: grid;
+  gap: 8px;
+  margin-top: 24px;
+  max-width: 420px;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.search-field input {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 12px 14px;
+  color: var(--ink);
+  background: #fbfcfd;
+  font: inherit;
+}
+
+.search-field input:focus {
+  border-color: var(--gold);
+  outline: 3px solid rgba(191, 142, 75, 0.16);
+}
+
+.empty-state {
+  margin-top: 18px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: #fbfcfd;
+  color: var(--muted);
+  font-weight: 800;
 }
 
 .document-row {
@@ -831,6 +902,10 @@ blockquote {
   gap: 14px;
 }
 
+.hidden-field {
+  display: none;
+}
+
 .contact-form label {
   display: grid;
   gap: 6px;
@@ -846,6 +921,44 @@ blockquote {
   padding: 11px 12px;
   color: var(--ink);
   background: white;
+}
+
+.success-panel {
+  max-width: 680px;
+  margin: 0 auto;
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.success-mark {
+  width: 64px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--navy);
+  color: white;
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.success-panel h2,
+.success-panel p {
+  margin: 0;
+}
+
+.success-panel p {
+  color: var(--muted);
+}
+
+.success-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 8px;
 }
 
 .map {
@@ -873,6 +986,10 @@ blockquote {
   color: var(--ink);
   padding: 9px 12px;
   box-shadow: var(--shadow);
+}
+
+.mobile-actions {
+  display: none;
 }
 
 .footer {
@@ -987,6 +1104,10 @@ blockquote {
 }
 
 @media (max-width: 620px) {
+  body {
+    padding-bottom: 76px;
+  }
+
   .container {
     width: min(100% - 22px, 1140px);
   }
@@ -1012,9 +1133,43 @@ blockquote {
     grid-template-columns: 1fr;
   }
 
+  .attorney-profile {
+    grid-template-columns: 1fr;
+    justify-items: start;
+  }
+
   .accessibility {
     right: 11px;
     left: auto;
-    bottom: 11px;
+    bottom: 82px;
+  }
+
+  .mobile-actions {
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 18;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px;
+    padding: 10px 11px;
+    background: rgba(17, 24, 32, 0.96);
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 -12px 34px rgba(15, 37, 56, 0.18);
+  }
+
+  .mobile-actions a {
+    min-height: 48px;
+    display: grid;
+    place-items: center;
+    border-radius: 4px;
+    background: var(--gold);
+    color: white;
+    text-decoration: none;
+    font-weight: 800;
+  }
+
+  .mobile-actions a:last-child {
+    background: var(--navy-2);
   }
 }

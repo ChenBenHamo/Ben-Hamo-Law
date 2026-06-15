@@ -13,9 +13,65 @@
       name="description"
       content="יוסי בן חמו משרד עורכי דין - דיני עבודה, ביטוח לאומי, אובדן כושר עבודה וייעוץ למעסיקים וחברות."
     />
+    <meta property="og:site_name" content="יוסי בן חמו משרד עורכי דין" />
+    <meta property="og:locale" content="he_IL" />
     <title>יוסי בן חמו משרד עורכי דין</title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "LegalService",
+        "name": "יוסי בן חמו משרד עורכי דין",
+        "alternateName": "Yossi Ben Hamo Law Office",
+        "url": "https://www.ben-hamo-law.co.il/",
+        "telephone": "03-9608886",
+        "faxNumber": "03-9608778",
+        "email": "office@ybl-law.com",
+        "priceRange": "$$",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "רוטשילד 45, קניון G",
+          "addressLocality": "ראשון לציון",
+          "addressCountry": "IL"
+        },
+        "hasMap": "https://www.google.com/maps?q=%D7%A8%D7%95%D7%98%D7%A9%D7%99%D7%9C%D7%93%2045%20%D7%A8%D7%90%D7%A9%D7%95%D7%9F%20%D7%9C%D7%A6%D7%99%D7%95%D7%9F",
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"],
+            "opens": "09:00",
+            "closes": "17:30"
+          }
+        ],
+        "areaServed": {
+          "@type": "Country",
+          "name": "Israel"
+        },
+        "knowsAbout": [
+          "דיני עבודה",
+          "ביטוח לאומי",
+          "אובדן כושר עבודה",
+          "ייעוץ למעסיקים",
+          "Labor law",
+          "National Insurance",
+          "Loss of work capacity"
+        ],
+        "founder": {
+          "@type": "Person",
+          "name": "יוסי בן חמו",
+          "jobTitle": "עורך דין"
+        }
+      }
+    </script>
   </head>
   <body>
+    <form name="contact" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="form-name" value="contact" />
+      <input name="bot-field" />
+      <input type="text" name="name" />
+      <input type="tel" name="phone" />
+      <input type="email" name="email" />
+      <textarea name="message"></textarea>
+    </form>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

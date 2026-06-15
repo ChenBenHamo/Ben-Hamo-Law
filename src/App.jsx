@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import yossiProfile from "./assets/yossi-ben-hamo-profile.webp";
 
 const contact = {
   phone: "03-9608886",
@@ -57,6 +58,92 @@ const ui = {
     footerSummary: "Labor law, National Insurance, loss of work capacity and legal counsel for employers and companies.",
     footerNav: "Quick navigation",
     copyright: "All rights reserved",
+  },
+};
+
+const seoContent = {
+  he: {
+    home: {
+      title: "יוסי בן חמו משרד עורכי דין | דיני עבודה, ביטוח לאומי ואובדן כושר עבודה",
+      description:
+        "משרד עורכי דין יוסי בן חמו מעניק ייצוג משפטי בדיני עבודה, ביטוח לאומי, אובדן כושר עבודה וייעוץ למעסיקים וחברות.",
+    },
+    about: {
+      title: "אודות | יוסי בן חמו משרד עורכי דין",
+      description:
+        "מידע על משרד עורכי דין יוסי בן חמו, ניסיון המשרד, תחומי ההתמחות והשירותים המשפטיים בדיני עבודה וביטוח לאומי.",
+    },
+    employers: {
+      title: "ייעוץ למעסיקים וחברות | יוסי בן חמו משרד עורכי דין",
+      description:
+        "ייעוץ משפטי למעסיקים וחברות בדיני עבודה, עריכת חוזים, ייצוג בתביעות עובדים, שירותי ריטיינר וליווי שוטף.",
+    },
+    verdicts: {
+      title: "פסקי דין | יוסי בן חמו משרד עורכי דין",
+      description: "מאגר פסקי דין ומסמכים משפטיים של משרד עורכי דין יוסי בן חמו בתחומי דיני העבודה.",
+    },
+    links: {
+      title: "קישורים שימושיים | יוסי בן חמו משרד עורכי דין",
+      description: "קישורים לגופים רשמיים בתחומי דיני עבודה, שירות המדינה וביטוח לאומי.",
+    },
+    thanks: {
+      title: "מכתבי תודה | יוסי בן חמו משרד עורכי דין",
+      description: "מכתבי תודה והמלצות מלקוחות המשרד.",
+    },
+    contact: {
+      title: "צור קשר | יוסי בן חמו משרד עורכי דין בראשון לציון",
+      description:
+        "צור קשר עם משרד עורכי דין יוסי בן חמו: קניון G, רוטשילד 45, ראשון לציון. טלפון 03-9608886.",
+    },
+    article: {
+      title: "מגמה חדשה בבחירת עורך דין | יוסי בן חמו משרד עורכי דין",
+      description: "מאמר מקצועי על חשיבות בחירת עורך דין בעל התמחות ייחודית וניסיון בתחום המשפטי הרלוונטי.",
+    },
+    "contact-success": {
+      title: "פנייתך התקבלה | יוסי בן חמו משרד עורכי דין",
+      description: "פנייתך נשלחה בהצלחה למשרד עורכי דין יוסי בן חמו.",
+    },
+  },
+  en: {
+    home: {
+      title: "Yossi Ben Hamo Law Office | Labor Law and National Insurance",
+      description:
+        "Yossi Ben Hamo Law Office provides legal representation in labor law, National Insurance, loss of work capacity and employer counsel.",
+    },
+    about: {
+      title: "About | Yossi Ben Hamo Law Office",
+      description: "Learn about Yossi Ben Hamo Law Office, its experience, legal focus and professional services.",
+    },
+    employers: {
+      title: "Employer Counsel | Yossi Ben Hamo Law Office",
+      description:
+        "Legal counsel for employers and companies, employment agreements, employee claims, retainers and ongoing labor-law advice.",
+    },
+    verdicts: {
+      title: "Verdicts | Yossi Ben Hamo Law Office",
+      description: "Legal documents and verdicts from Yossi Ben Hamo Law Office.",
+    },
+    links: {
+      title: "Useful Links | Yossi Ben Hamo Law Office",
+      description: "Official resources relating to labor, civil service and National Insurance in Israel.",
+    },
+    thanks: {
+      title: "Testimonials | Yossi Ben Hamo Law Office",
+      description: "Client thank-you letters and testimonials for Yossi Ben Hamo Law Office.",
+    },
+    contact: {
+      title: "Contact | Yossi Ben Hamo Law Office in Rishon LeZion",
+      description:
+        "Contact Yossi Ben Hamo Law Office: G Mall, 45 Rothschild St., Rishon LeZion. Phone 03-9608886.",
+    },
+    article: {
+      title: "Choosing an Attorney with Focused Expertise | Yossi Ben Hamo Law Office",
+      description: "A professional article about the importance of choosing an attorney with focused legal expertise.",
+    },
+    "contact-success": {
+      title: "Inquiry Received | Yossi Ben Hamo Law Office",
+      description: "Your inquiry was sent successfully to Yossi Ben Hamo Law Office.",
+    },
   },
 };
 
@@ -362,8 +449,27 @@ const testimonialFiles = {
   "אבי חלוץ דלי קרים אשדוד": "/testimonials/avi-halutz-deli-cream-ashdod.pdf",
 };
 
+function normalizeSearch(value) {
+  return value.trim().toLowerCase();
+}
+
+function setMeta(name, content, attribute = "name") {
+  let element = document.head.querySelector(`meta[${attribute}="${name}"]`);
+
+  if (!element) {
+    element = document.createElement("meta");
+    element.setAttribute(attribute, name);
+    document.head.appendChild(element);
+  }
+
+  element.setAttribute("content", content);
+}
+
 function App() {
-  const [page, setPage] = useState("home");
+  const [page, setPage] = useState(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("sent") === "1" ? "contact-success" : "home";
+  });
   const [lang, setLang] = useState("he");
   const [activeService, setActiveService] = useState("");
   const [contrast, setContrast] = useState(false);
@@ -376,8 +482,25 @@ function App() {
     document.documentElement.dir = lang === "he" ? "rtl" : "ltr";
   }, [lang]);
 
+  useEffect(() => {
+    const fallback = seoContent[lang].home;
+    const currentSeo = seoContent[lang][page] || fallback;
+
+    document.title = currentSeo.title;
+    setMeta("description", currentSeo.description);
+    setMeta("og:title", currentSeo.title, "property");
+    setMeta("og:description", currentSeo.description, "property");
+    setMeta("og:type", "website", "property");
+    setMeta("twitter:card", "summary");
+    setMeta("twitter:title", currentSeo.title);
+    setMeta("twitter:description", currentSeo.description);
+  }, [lang, page]);
+
   function navigate(nextPage) {
     setPage(nextPage);
+    if (window.location.search) {
+      window.history.replaceState({}, "", window.location.pathname);
+    }
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
@@ -401,10 +524,12 @@ function App() {
         {page === "links" && <Links lang={lang} />}
         {page === "thanks" && <Thanks lang={lang} />}
         {page === "contact" && <Contact lang={lang} contactInfo={contactInfo} />}
+        {page === "contact-success" && <ContactSuccess lang={lang} navigate={navigate} />}
       </main>
       <button className="accessibility" onClick={() => setContrast((value) => !value)}>
         {t.accessibility}
       </button>
+      <MobileActions lang={lang} />
       <Footer year={year} navigate={navigate} lang={lang} t={t} />
     </div>
   );
@@ -630,12 +755,19 @@ function About({ lang }) {
           the office's reputation as a focused and professional firm that places the client at the
           center of its work.
         </p>
-        <p>
-          The office is headed by a professional and reliable attorney who is thoroughly proficient in
-          labor law, social security law and insurance law, particularly loss of work capacity. The
-          office also works with experts in various medical fields, which significantly increases
-          clients' prospects of realizing their rights.
-        </p>
+        <section className="attorney-profile" aria-label="Attorney profile">
+          <img src={yossiProfile} alt="Adv. Yossi Ben Hamo" loading="lazy" />
+          <div>
+            <span>Head of the Office</span>
+            <h2>Adv. Yossi Ben Hamo</h2>
+            <p>
+              The office is headed by a professional and reliable attorney who is thoroughly proficient
+              in labor law, social security law and insurance law, particularly loss of work capacity.
+              The office also works with experts in various medical fields, which significantly
+              increases clients' prospects of realizing their rights.
+            </p>
+          </div>
+        </section>
         <p>
           The prospects of success in claims depend first and foremost on the manner in which the legal
           pleadings are prepared, the analysis of all disputes forming the basis of the statement of
@@ -663,11 +795,18 @@ function About({ lang }) {
         היחס האישי והאדיב הניתנים לכל לקוח, תורמים לחיזוק המוניטין של המשרד כמשרד ממוקד ומקצועי השם
         את הלקוח במרכז העשייה.
       </p>
-      <p>
-        בראש המשרד עומד עורך דין מקצועי ואמין בעל היכרות מעמיקה בתחומים דיני עבודה, דיני הביטוח
-        הלאומי ודיני הביטוח בפרט (אבדן כושר עבודה). כמו כן, המשרד מסתייע במומחים מתחומי הרפואה
-        השונים, המגדילים בעשרות מונים את סיכויי הלקוחות לממש את זכויותיהם.
-      </p>
+      <section className="attorney-profile" aria-label="פרופיל עורך הדין">
+        <img src={yossiProfile} alt="עו״ד יוסי בן חמו" loading="lazy" />
+        <div>
+          <span>בראש המשרד</span>
+          <h2>עו״ד יוסי בן חמו</h2>
+          <p>
+            בראש המשרד עומד עורך דין מקצועי ואמין בעל היכרות מעמיקה בתחומים דיני עבודה, דיני הביטוח
+            הלאומי ודיני הביטוח בפרט (אבדן כושר עבודה). כמו כן, המשרד מסתייע במומחים מתחומי הרפואה
+            השונים, המגדילים בעשרות מונים את סיכויי הלקוחות לממש את זכויותיהם.
+          </p>
+        </div>
+      </section>
       <p>
         סיכויי הצלחת התביעות תלויים בראש ובראשונה באופן הכנת כתבי בית הדין, ניתוח מלוא המחלוקות נשוא
         כתב התביעה והקפדה על אסטרטגיית ניהול תיק אקטיבית תוך כדי בחינה מתמדת של הצעות פשרה לסיום
@@ -876,11 +1015,24 @@ function Article({ lang }) {
 
 function Verdicts({ lang }) {
   const isHebrew = lang === "he";
+  const [query, setQuery] = useState("");
+  const normalizedQuery = normalizeSearch(query);
+  const filteredVerdicts = verdicts.filter((item) => normalizeSearch(item.title).includes(normalizedQuery));
+
   return (
     <Page eyebrow={isHebrew ? "מסמכים משפטיים" : "Legal Documents"} title={isHebrew ? "פסקי דין" : "Verdicts"}>
       <p>{isHebrew ? "רשימת פסקי הדין והמסמכים שהופיעה באתר המקורי." : "A list of verdicts and legal documents from the original website."}</p>
+      <label className="search-field">
+        <span>{isHebrew ? "חיפוש בפסקי דין" : "Search verdicts"}</span>
+        <input
+          type="search"
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+          placeholder={isHebrew ? "הקלדה לפי שם מסמך..." : "Type a document name..."}
+        />
+      </label>
       <div className="document-list">
-        {verdicts.map((item) => (
+        {filteredVerdicts.map((item) => (
           <a className="document-row document-link" href={item.file} target="_blank" rel="noreferrer" key={item.title}>
             <span>{isHebrew ? "מסמך" : "Document"}</span>
             <strong>{item.title}</strong>
@@ -888,6 +1040,9 @@ function Verdicts({ lang }) {
           </a>
         ))}
       </div>
+      {filteredVerdicts.length === 0 && (
+        <p className="empty-state">{isHebrew ? "לא נמצאו מסמכים התואמים לחיפוש." : "No matching documents were found."}</p>
+      )}
     </Page>
   );
 }
@@ -943,6 +1098,10 @@ function ConsultationNote({ lang, compact = false }) {
 
 function Thanks({ lang }) {
   const isHebrew = lang === "he";
+  const [query, setQuery] = useState("");
+  const normalizedQuery = normalizeSearch(query);
+  const filteredThanks = thanks.filter((name) => normalizeSearch(name).includes(normalizedQuery));
+
   return (
     <Page eyebrow={isHebrew ? "לקוחות ממליצים" : "Client Testimonials"} title={isHebrew ? "מכתבי תודה" : "Testimonials"}>
       <p>
@@ -950,8 +1109,17 @@ function Thanks({ lang }) {
           ? "עמוד זה מרכז את מכתבי התודה וההמלצות שהופיעו באתר הקיים. בשלב הבא ניתן לחבר לכל פריט את צילום המכתב המקורי או קובץ PDF."
           : "This page lists thank-you letters and testimonials from the original website. In the next stage, each item can be linked to the original letter image or PDF."}
       </p>
+      <label className="search-field">
+        <span>{isHebrew ? "חיפוש במכתבי תודה" : "Search testimonials"}</span>
+        <input
+          type="search"
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+          placeholder={isHebrew ? "הקלדה לפי שם לקוח או חברה..." : "Type a client or company name..."}
+        />
+      </label>
       <div className="thanks-grid">
-        {thanks.map((name) => {
+        {filteredThanks.map((name) => {
           const file = testimonialFiles[name];
           const label = isHebrew ? "מכתב תודה" : "Testimonial";
           const action = file
@@ -985,6 +1153,9 @@ function Thanks({ lang }) {
           );
         })}
       </div>
+      {filteredThanks.length === 0 && (
+        <p className="empty-state">{isHebrew ? "לא נמצאו מכתבי תודה התואמים לחיפוש." : "No matching testimonials were found."}</p>
+      )}
     </Page>
   );
 }
@@ -1011,14 +1182,28 @@ function Contact({ lang, contactInfo }) {
           </a>
           <ConsultationNote lang={lang} compact />
         </section>
-        <form className="contact-form">
+        <form
+          className="contact-form"
+          name="contact"
+          method="POST"
+          action="/?sent=1"
+          data-netlify="true"
+          data-netlify-honeypot="bot-field"
+        >
+          <input type="hidden" name="form-name" value="contact" />
+          <p className="hidden-field">
+            <label>
+              {isHebrew ? "אין למלא שדה זה" : "Do not fill this field"}
+              <input name="bot-field" />
+            </label>
+          </p>
           <label>
             {isHebrew ? "שם מלא" : "Full Name"}
-            <input type="text" name="name" autoComplete="name" />
+            <input type="text" name="name" autoComplete="name" required />
           </label>
           <label>
             {isHebrew ? "טלפון" : "Phone"}
-            <input type="tel" name="phone" autoComplete="tel" />
+            <input type="tel" name="phone" autoComplete="tel" required />
           </label>
           <label>
             {isHebrew ? "דוא\"ל" : "Email"}
@@ -1028,7 +1213,7 @@ function Contact({ lang, contactInfo }) {
             {isHebrew ? "פרטי הפנייה" : "Message"}
             <textarea name="message" rows="5" />
           </label>
-          <button className="primary" type="button">
+          <button className="primary" type="submit">
             {isHebrew ? "שליחת פנייה" : "Send Inquiry"}
           </button>
         </form>
@@ -1041,6 +1226,51 @@ function Contact({ lang, contactInfo }) {
         />
       </div>
     </Page>
+  );
+}
+
+function ContactSuccess({ lang, navigate }) {
+  const isHebrew = lang === "he";
+
+  return (
+    <Page eyebrow={isHebrew ? "הפנייה נשלחה" : "Inquiry Sent"} title={isHebrew ? "תודה, פנייתך התקבלה" : "Thank You"}>
+      <section className="success-panel">
+        <div className="success-mark" aria-hidden="true">
+          ✓
+        </div>
+        <h2>{isHebrew ? "נחזור אליך בהקדם" : "We will get back to you shortly"}</h2>
+        <p>
+          {isHebrew
+            ? "הפנייה נשלחה למשרד בהצלחה. צוות המשרד יבחן את הפרטים ויצור קשר בהקדם האפשרי."
+            : "Your inquiry has been sent to the office successfully. The team will review the details and contact you as soon as possible."}
+        </p>
+        <div className="success-actions">
+          <button className="primary" onClick={() => navigate("home")}>
+            {isHebrew ? "חזרה לדף הבית" : "Back to Home"}
+          </button>
+          <button className="secondary" onClick={() => navigate("contact")}>
+            {isHebrew ? "פרטי התקשרות" : "Contact Details"}
+          </button>
+        </div>
+      </section>
+    </Page>
+  );
+}
+
+function MobileActions({ lang }) {
+  const isHebrew = lang === "he";
+
+  return (
+    <div className="mobile-actions" aria-label={isHebrew ? "פעולות מהירות" : "Quick actions"}>
+      <a href={`tel:${contact.phone.replace(/-/g, "")}`}>{isHebrew ? "התקשרות" : "Call"}</a>
+      <a
+        href="https://www.google.com/maps?q=%D7%A8%D7%95%D7%98%D7%A9%D7%99%D7%9C%D7%93%2045%20%D7%A8%D7%90%D7%A9%D7%95%D7%9F%20%D7%9C%D7%A6%D7%99%D7%95%D7%9F"
+        target="_blank"
+        rel="noreferrer"
+      >
+        {isHebrew ? "ניווט" : "Navigate"}
+      </a>
+    </div>
   );
 }
 
