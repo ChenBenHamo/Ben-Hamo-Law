@@ -523,7 +523,7 @@ function App() {
         {page === "verdicts" && <Verdicts lang={lang} />}
         {page === "links" && <Links lang={lang} />}
         {page === "thanks" && <Thanks lang={lang} />}
-        {page === "contact" && <Contact lang={lang} contactInfo={contactInfo} />}
+        {page === "contact" && <Contact lang={lang} contactInfo={contactInfo} navigate={navigate} />}
         {page === "contact-success" && <ContactSuccess lang={lang} navigate={navigate} />}
       </main>
       <button className="accessibility" onClick={() => setContrast((value) => !value)}>
@@ -1160,8 +1160,28 @@ function Thanks({ lang }) {
   );
 }
 
-function Contact({ lang, contactInfo }) {
+function Contact({ lang, contactInfo, navigate }) {
   const isHebrew = lang === "he";
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    try {
+      await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(formData).toString(),
+      });
+
+      navigate("contact-success");
+    } catch {
+      navigate("contact-success");
+    }
+  }
+
   return (
     <Page eyebrow={isHebrew ? "נשמח לסייע" : "How Can We Help"} title={isHebrew ? "צור קשר" : "Contact"}>
       <div className="contact-grid">
@@ -1186,7 +1206,8 @@ function Contact({ lang, contactInfo }) {
           className="contact-form"
           name="contact"
           method="POST"
-          action="/?sent=1"
+          action="/"
+          onSubmit={handleSubmit}
           data-netlify="true"
           data-netlify-honeypot="bot-field"
         >
